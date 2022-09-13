@@ -1,0 +1,4 @@
+terraform.tfstate*
+aws-handson.tfvars
+.terraform.lock.hcl
+.terraform/*
