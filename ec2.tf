@@ -1,4 +1,4 @@
-# ƒZƒLƒ…ƒŠƒeƒBƒOƒ‹[ƒv
+# ã‚»ã‚­ãƒ¥ãƒªãƒ†ã‚£ã‚°ãƒ«ãƒ¼ãƒ—
 resource "aws_security_group" "aws_handson_ec2_sg" {
   name        = "aws-handson-ec2-sg"
   description = "EC2 Security Group"
@@ -8,16 +8,7 @@ resource "aws_security_group" "aws_handson_ec2_sg" {
     Name = "aws-handson-ec2-sg"
   }
 }
-# ŠO•”‚©‚çHTTP80ƒ|[ƒg‚Ö‚Ì’ÊM‚ğ‹–‰Â
-resource "aws_security_group_rule" "aws_handson_ec2_in_http" {
-  security_group_id = aws_security_group.aws_handson_ec2_sg.id
-  type              = "ingress"
-  protocol          = "tcp"
-  from_port         = 80
-  to_port           = 80
-  cidr_blocks       = ["0.0.0.0/0"]
-}
-# ELB ŒŠ‚ ‚¯
+# ELB çµŒç”±ã®INã®ã¿è¨±å¯
 resource "aws_security_group_rule" "aws_handson_ec2_in_http_lb" {
   security_group_id = aws_security_group.aws_handson_ec2_sg.id
   type              = "ingress"
@@ -26,7 +17,7 @@ resource "aws_security_group_rule" "aws_handson_ec2_in_http_lb" {
   to_port           = 80
   source_security_group_id = aws_security_group.aws_handson_lb_sg.id
 }
-# WebƒT[ƒo[‚©‚çŠO•”‚Ö‚Ì’ÊM‚ğ‹–‰Â@‘SŠJ•ú
+# Webã‚µãƒ¼ãƒãƒ¼ã‹ã‚‰å¤–éƒ¨ã¸ã®é€šä¿¡ã‚’è¨±å¯ã€€å…¨é–‹æ”¾
 resource "aws_security_group_rule" "aws_handson_ec2_out" {
   security_group_id = aws_security_group.aws_handson_ec2_sg.id
   type              = "egress"
@@ -35,8 +26,8 @@ resource "aws_security_group_rule" "aws_handson_ec2_out" {
   to_port           = 0
   cidr_blocks       = ["0.0.0.0/0"]
 }
-# EC2ƒCƒ“ƒXƒ^ƒ“ƒX 
-# user data‚Íƒnƒ“ƒYƒIƒ“‚É‹LÚ‚ğ‚»‚Ì‚Ü‚Ü
+# EC2ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ 
+# user dataã¯ãƒãƒ³ã‚ºã‚ªãƒ³ã«è¨˜è¼‰ã‚’ãã®ã¾ã¾
 resource "aws_instance" "aws_handson_ec2" {
   instance_type = "t2.micro"
   ami           = var.ami

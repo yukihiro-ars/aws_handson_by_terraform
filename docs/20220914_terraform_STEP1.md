@@ -10,17 +10,18 @@
     - [Availability Zone（AZ）](#availability-zoneaz)
     - [VPC（Virtual Private Cloud）](#vpcvirtual-private-cloud)
     - [subnet（サブネット）](#subnetサブネット)
+    - [インターネットゲートウェイ](#インターネットゲートウェイ)
+    - [ルートテーブル](#ルートテーブル)
+    - [ELB（Elastic Load balancing）](#elbelastic-load-balancing)
+    - [セキュリティグループ](#セキュリティグループ)
+    - [ターゲットグループ](#ターゲットグループ)
     - [EC2（Elastic Compute Cloud）](#ec2elastic-compute-cloud)
     - [RDS（Relational Database Service）](#rdsrelational-database-service)
     - [IAM（Identity and Access Management）](#iamidentity-and-access-management)
-    - [ELB（Elastic Load balancing）](#elbelastic-load-balancing)
     - [AMI（マシンイメージ）](#amiマシンイメージ)
-    - [ターゲットグループ](#ターゲットグループ)
-    - [セキュリティグループ](#セキュリティグループ)
-    - [ルートテーブル](#ルートテーブル)
 - [Terraform とは](#terraform-とは)
   - [IaCのメリット](#iacのメリット)
-  - [競合](#競合)
+  - [競合技術](#競合技術)
   - [コーディング](#コーディング)
   - [Terraformを使うメリット](#terraformを使うメリット)
 - [Terraformでハンズオン](#terraformでハンズオン)
@@ -51,7 +52,6 @@ STEP1ではインターネットゲートウェイは配置しつつも、ウェ
 
 <!--TODO RDS以外は、ELB、VPC、EC2もIaaSか、、RDSはPaaSか、SaaSはここには登場しない？
 このテーマは必要か？-->
-
 | 分類 | 特徴 | 具体的な提供サービス | 住宅で例えると |
 | -- | -- | -- | -- |
 | IaaS | システムを構築するためのインフラをクラウド上で提供 | 住宅で例えると仮想サーバー・仮想ネットワークなど | デザインや間取り、家具など全て自分で好きなように設計できる注文住宅 |
@@ -82,6 +82,31 @@ STEP1ではインターネットゲートウェイは配置しつつも、ウェ
 - VPC内でさらに細かく区切った任意のネットワークの範囲。  
 - Webサーバーはパブリックサブネットに配置し、データベースはプライベートサブネットに構築するなど、用途による切り分けができる。（パブリックサブネットとプライベートサブネットの違いは、インターネットと直接通信するかどうか）
 
+### インターネットゲートウェイ
+
+- インターネットとVPCのつなぎ役
+
+### ルートテーブル
+
+- VPCはルールに従ってルートと呼ばれるネットワーク経路を選択する。そのルールが記載されたテーブル
+
+### ELB（Elastic Load balancing）
+
+- ロードバランサーサービス
+- 外部リクエストを複数サーバに振り分ける
+- 複数種類あるが今回使うのはWebサービス向けのALB(Application Load Balancer)  
+   他にもNLB(Network ...)とかあるみたい
+
+### セキュリティグループ
+
+- 関連付けられたリソースのINとOUTのトラフィックを制御する  
+  ハンズオン(STEP1)ではELB - EC2 - RDS間のI/Oを制御
+
+### ターゲットグループ
+
+- リクエストをルーティングするために使う  
+  ロードバランサにくっついてくる  
+
 ### EC2（Elastic Compute Cloud）
 
 - 仮想サーバー
@@ -99,24 +124,11 @@ STEP1ではインターネットゲートウェイは配置しつつも、ウェ
 - ルートユーザー（AWSに登録したアカウント）との差別化を図る
 - 各サービスのアクセス権限を設定できる
 
-### ELB（Elastic Load balancing）
-
-- ロードバランサーサービスのこと
-- 外部リクエストを複数サーバに振り分ける
-- 複数種類あるが今回使うのはWebサービス向けのALB(Application Load Balancer)  
-   他にもNLB(Network ...)とかあるみたい
-
 ### AMI（マシンイメージ）
 
 - AWSが管理するマシンイメージ
 - 独自のマシンイメージを作成することもできる  
   独自のAMIを作成する手順がハンズオンにも含まれるが、STEP1では対象外
-
-### ターゲットグループ
-
-### セキュリティグループ
-
-### ルートテーブル
 
 # Terraform とは
 
@@ -135,20 +147,21 @@ Infrastructure as Code (IaC) を実現するソフトウェアツールです。
 ※参考 [Red Hat IaC (Infrastructure as Code) とは ](https://www.redhat.com/ja/topics/automation/what-is-infrastructure-as-code-iac)より  
 ※構成ドリフトはググった結果、管理できていない設定差異のこととぼんやり解釈
 
-## 競合
+## 競合技術
 
 - AWS Cloud Formation | AWSが提供するIaCサービス
 - Azure Resource Manager | Microsoftが提供するリソースグループを管理するサービス([参考](https://business.ntt-east.co.jp/content/cloudsolution/column-147.html))
+- などなど、、
 
 ## コーディング
 
 HashiCorp Configuration Language(HCL)を用いてJSONぽい宣言型のプログラミング言語を用いて記述
 
-<!-- TODO main tf あたりの話、 tfenvの話、gitauthxxxxの話　-->
-
 ## Terraformを使うメリット
 
-- 複数のクラウドサービスに同一言語(HCL)を用いて対応できる
+- 異なるクラウドサービスに同一言語(HCL)で対応できる
+
+- 充実した[ドキュメント](https://registry.terraform.io/providers/hashicorp/aws/latest/docs)  
 
 - リソースの一括削除
 
@@ -172,23 +185,8 @@ WordPress立ち上げまでを実施
 ## 0.Terraform下準備
 
 利用するTerraformバージョンやawsプロフィール、リージョンを指定
-<!-- TODO もう少し俯瞰の視点が欲しい tfenvとかあのあたり、書くべきだがどこまで書くか -->
-<!-- TODO 以下のコードくらいはかみ砕いて説明したい 、-->
 ~~~
-/// 
-terraform {
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = "~> 3.27" 
-    }
-  }
-  required_version = ">=1.0.0"
-}
-provider "aws" {
-  profile = "default"
-  region  = "ap-northeast-1"
-}
+main.tf あたりを見ながら
 ~~~
 
 ## 1.VPCの作成
@@ -198,70 +196,7 @@ provider "aws" {
 
 - コードディング  
   ~~~
-  /// VPC
-  resource "aws_vpc" "aws_handson_vpc" {
-    cidr_block           = "10.0.0.0/16"
-    enable_dns_hostnames = true
-
-    tags = {
-      Name = "aws-handson-vpc"
-    }
-  }
-  /// パブリックサブネット 
-  resource "aws_subnet" "aws_handson_public_subnet_1a" {
-    vpc_id                  = aws_vpc.aws_handson_vpc.id
-    cidr_block              = "10.0.0.0/24"
-    availability_zone       = "ap-northeast-1a"
-    map_public_ip_on_launch = true
-
-    tags = {
-      Name = "aws-handson-public-subnet-1a"
-    }
-  }
-  resource "aws_subnet" "aws_handson_public_subnet_1c" {
-    --- 略 ---
-  }
-  /// プライベートサブネット 
-  resource "aws_subnet" "aws_handson_private_subnet_1a" {
-    vpc_id                  = aws_vpc.aws_handson_vpc.id
-    cidr_block              = "10.0.2.0/24"
-    availability_zone       = "ap-northeast-1a"
-    map_public_ip_on_launch = false 
-
-    tags = {
-      Name = "aws-handson-private-subnet-1a"
-    }
-  }
-  resource "aws_subnet" "aws_handson_private_subnet_1c" {
-    --- 略 ---
-  }
-  /// インターネットゲートウェイ
-  resource "aws_internet_gateway" "aws_handson_igw" {
-    vpc_id = aws_vpc.aws_handson_vpc.id
-  
-    tags = {
-      Name = "aws-handson-igw"
-    }
-  }
-  /// パブリック
-  /// ルートテーブル
-  resource "aws_route_table" "aws_handson_route_table" {
-    vpc_id = aws_vpc.aws_handson_vpc.id
-    tags = {
-      Name = "aws-handson-route-table"
-    }
-  }
-  /// ルート
-  resource "aws_route" "aws_handson_route" {
-    route_table_id         = aws_route_table.aws_handson_route_table.id
-    destination_cidr_block = "0.0.0.0/0"
-    gateway_id             = aws_internet_gateway.aws_handson_igw.id
-  }
-  /// ルートテーブルとの関連付け
-  resource "aws_route_table_association" "aws_handson_route_table_a" {
-    route_table_id = aws_route_table.aws_handson_route_table.id
-    subnet_id      = aws_subnet.aws_handson_public_subnet_1a.id
-  }
+  network.tf あたりを見ながら
   ~~~ 
 
 ## 2. Amazon EC2 の作成
@@ -271,7 +206,7 @@ provider "aws" {
 
 - コードディング  
   ~~~
-  実コードを見ながら
+  ec2.tf あたりを見ながら
   ~~~ 
 
 ## 3. Amazon RDSの作成
@@ -281,7 +216,7 @@ provider "aws" {
 
 - コードディング  
   ~~~
-  実コードを見ながら
+  rds.tf あたりを見ながら
   ~~~ 
 
 ## 4. ELBの作成
@@ -291,7 +226,7 @@ provider "aws" {
 
 - コードディング  
   ~~~
-  実コードを見ながら
+  elb.tf あたりを見ながら
   ~~~ 
 
 ## 5. WordPressの初期設定
@@ -300,9 +235,9 @@ provider "aws" {
 [https://catalog.us-east-1.prod.workshops.aws/workshops/47782ec0-8e8c-41e8-b873-9da91e822b36/ja-JP/hands-on/phase5](https://catalog.us-east-1.prod.workshops.aws/workshops/47782ec0-8e8c-41e8-b873-9da91e822b36/ja-JP/hands-on/phase5)
 
 - コードディング  
-  <!-- TODO Outputの下りが掛けたらコードかくのもあり -->
+- 
   ~~~
-  実コードを見ながら
+  outputs.tf あたりを見ながら
   ~~~ 
 
 # 雑感

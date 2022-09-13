@@ -7,9 +7,9 @@ resource "aws_lb_target_group" "aws_handson_lb_target_group" {
   # default protocol_version = "HTTP1"
   health_check {
     path = var.helthcheck_path
-    # ‘¼‚ÍƒfƒtƒHƒ‹ƒg‚È‚Ì‚Å•ÏX‚µ‚È‚¢
+    # ä»–ã¯ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆãªã®ã§å¤‰æ›´ã—ãªã„
   }
-  # target group ‚É“o˜^‚·‚éEC2ƒCƒ“ƒXƒ^ƒ“ƒX‚ğw’è‚·‚é•û–@
+  # target group ã«ç™»éŒ²ã™ã‚‹EC2ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’æŒ‡å®šã™ã‚‹æ–¹æ³•
 }
 # https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb_target_group_attachment
 resource "aws_lb_target_group_attachment" "aws_handson_lb_target_group_attachment" {
@@ -17,7 +17,7 @@ resource "aws_lb_target_group_attachment" "aws_handson_lb_target_group_attachmen
   target_id        = aws_instance.aws_handson_ec2.id
   port             = 80
 }
-# ELB ƒZƒLƒ…ƒŠƒeƒBƒOƒ‹[ƒv
+# ELB ã‚»ã‚­ãƒ¥ãƒªãƒ†ã‚£ã‚°ãƒ«ãƒ¼ãƒ—
 resource "aws_security_group" "aws_handson_lb_sg" {
   name        = "aws-handson-lb-sg"
   description = "LB Security Group"
@@ -38,13 +38,13 @@ resource "aws_security_group" "aws_handson_lb_sg" {
     Name = "aws-handson-lb-sg"
   }
 }
-# ƒ[ƒhƒoƒ‰ƒ“ƒT(ALB)
+# ãƒ­ãƒ¼ãƒ‰ãƒãƒ©ãƒ³ã‚µ(ALB)
 resource "aws_lb" "aws_handson_lb" {
   name     = "aws-handson-lb"
   load_balancer_type = "application"
   internal = false
   ip_address_type = "ipv4"
-  # DEMO‚Ì‚½‚ßí‚Éíœ•ÛŒì–³Œø‰»
+  # DEMOã®ãŸã‚å¸¸ã«å‰Šé™¤ä¿è­·ç„¡åŠ¹åŒ–
   enable_deletion_protection = false
   security_groups = [aws_security_group.aws_handson_lb_sg.id]
   subnets = [
@@ -52,7 +52,7 @@ resource "aws_lb" "aws_handson_lb" {
     aws_subnet.aws_handson_public_subnet_1c.id,
   ]
 }
-# ƒ[ƒhƒoƒ‰ƒ“ƒTƒŠƒXƒi[
+# ãƒ­ãƒ¼ãƒ‰ãƒãƒ©ãƒ³ã‚µãƒªã‚¹ãƒŠãƒ¼
 resource "aws_lb_listener" "aws_handson_lb_listener" {
   load_balancer_arn = aws_lb.aws_handson_lb.id
   port              = 80

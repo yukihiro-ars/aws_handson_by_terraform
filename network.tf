@@ -7,7 +7,7 @@ resource "aws_vpc" "aws_handson_vpc" {
     Name = "aws-handson-vpc"
   }
 }
-# ƒpƒuƒŠƒbƒNƒTƒuƒlƒbƒg
+# ãƒ‘ãƒ–ãƒªãƒƒã‚¯ã‚µãƒ–ãƒãƒƒãƒˆ
 resource "aws_subnet" "aws_handson_public_subnet_1a" {
   vpc_id                  = aws_vpc.aws_handson_vpc.id
   cidr_block              = "10.0.0.0/24"
@@ -28,7 +28,7 @@ resource "aws_subnet" "aws_handson_public_subnet_1c" {
     Name = "aws-handson-public-subnet-1c"
   }
 }
-# ƒvƒ‰ƒCƒx[ƒgƒTƒuƒlƒbƒg
+# ãƒ—ãƒ©ã‚¤ãƒ™ãƒ¼ãƒˆã‚µãƒ–ãƒãƒƒãƒˆ
 resource "aws_subnet" "aws_handson_private_subnet_1a" {
   vpc_id                  = aws_vpc.aws_handson_vpc.id
   cidr_block              = "10.0.2.0/24"
@@ -49,7 +49,7 @@ resource "aws_subnet" "aws_handson_private_subnet_1c" {
     Name = "aws-handson-private-subnet-1c"
   }
 }
-# ƒCƒ“ƒ^[ƒlƒbƒgƒQ[ƒgƒEƒFƒC
+# ã‚¤ãƒ³ã‚¿ãƒ¼ãƒãƒƒãƒˆã‚²ãƒ¼ãƒˆã‚¦ã‚§ã‚¤
 resource "aws_internet_gateway" "aws_handson_igw" {
   vpc_id = aws_vpc.aws_handson_vpc.id
 
@@ -57,8 +57,8 @@ resource "aws_internet_gateway" "aws_handson_igw" {
     Name = "aws-handson-igw"
   }
 }
-# ƒpƒuƒŠƒbƒN
-# ƒ‹[ƒgƒe[ƒuƒ‹
+# ãƒ‘ãƒ–ãƒªãƒƒã‚¯
+# ãƒ«ãƒ¼ãƒˆãƒ†ãƒ¼ãƒ–ãƒ«
 resource "aws_route_table" "aws_handson_route_table" {
   vpc_id = aws_vpc.aws_handson_vpc.id
 
@@ -66,13 +66,13 @@ resource "aws_route_table" "aws_handson_route_table" {
     Name = "aws-handson-route-table"
   }
 }
-# ƒ‹[ƒg
+# ãƒ«ãƒ¼ãƒˆ
 resource "aws_route" "aws_handson_route" {
   route_table_id         = aws_route_table.aws_handson_route_table.id
   destination_cidr_block = "0.0.0.0/0"
   gateway_id             = aws_internet_gateway.aws_handson_igw.id
 }
-# ƒ‹[ƒgƒe[ƒuƒ‹‚Æ‚ÌŠÖ˜A•t‚¯
+# ãƒ«ãƒ¼ãƒˆãƒ†ãƒ¼ãƒ–ãƒ«ã¨ã‚µãƒ–ãƒãƒƒãƒˆã®é–¢é€£ä»˜ã‘
 resource "aws_route_table_association" "aws_handson_route_table_a" {
   route_table_id = aws_route_table.aws_handson_route_table.id
   subnet_id      = aws_subnet.aws_handson_public_subnet_1a.id

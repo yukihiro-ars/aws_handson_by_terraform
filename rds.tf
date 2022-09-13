@@ -1,4 +1,4 @@
-# ƒZƒLƒ…ƒŠƒeƒBƒOƒ‹[ƒv
+# ã‚»ã‚­ãƒ¥ãƒªãƒ†ã‚£ã‚°ãƒ«ãƒ¼ãƒ—
 resource "aws_security_group" "aws_handson_rds_sg" {
   name        = "aws-handson-rds-sg"
   description = "RDS Security Group"
@@ -7,7 +7,7 @@ resource "aws_security_group" "aws_handson_rds_sg" {
     from_port = 3306
     to_port   = 3306
     protocol  = "tcp"
-    // ec2ƒZƒLƒ…ƒŠƒeƒBƒOƒ‹[ƒv‚ª•R‚Ã‚­ƒŠƒ\[ƒX‚ÉƒAƒNƒZƒX‹–‰Â
+    // ec2ã‚»ã‚­ãƒ¥ãƒªãƒ†ã‚£ã‚°ãƒ«ãƒ¼ãƒ—ãŒç´ã¥ããƒªã‚½ãƒ¼ã‚¹ã«ã‚¢ã‚¯ã‚»ã‚¹è¨±å¯
     security_groups = [aws_security_group.aws_handson_ec2_sg.id]
   }
   egress {
@@ -21,7 +21,7 @@ resource "aws_security_group" "aws_handson_rds_sg" {
   }
 }
 
-# ƒTƒuƒlƒbƒgƒOƒ‹[ƒv
+# ã‚µãƒ–ãƒãƒƒãƒˆã‚°ãƒ«ãƒ¼ãƒ—
 resource "aws_db_subnet_group" "aws_handson_rds_subnet_group" {
     name        = "aws-handson-rds-subnet-group"
     subnet_ids  = [
@@ -33,9 +33,9 @@ resource "aws_db_subnet_group" "aws_handson_rds_subnet_group" {
     }
 }
 
-# “ú–{ŒêDOC https://runebook.dev/ja/docs/terraform/providers/aws/d/db_instance
+# æ—¥æœ¬èªDOC https://runebook.dev/ja/docs/terraform/providers/aws/d/db_instance
 resource "aws_db_instance" "aws_handson_rds" {
-  # identifer RDS ƒCƒ“ƒXƒ^ƒ“ƒX–¼
+  # identifer RDS ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹å
   identifier              = "aws-handson-rds-wp-db"
   engine                  = "mysql"
   engine_version          = "8.0"
@@ -52,9 +52,9 @@ resource "aws_db_instance" "aws_handson_rds" {
   multi_az                = false
   allocated_storage       = 20
   availability_zone       = "ap-northeast-1a"
-  # DBíœ‘O‚ÉƒXƒiƒbƒvƒVƒ‡ƒbƒg‚ğì¬‚µ‚È‚¢
+  # DBå‰Šé™¤å‰ã«ã‚¹ãƒŠãƒƒãƒ—ã‚·ãƒ§ãƒƒãƒˆã‚’ä½œæˆã—ãªã„
   skip_final_snapshot = true
-  # ©“®ƒXƒP[ƒŠƒ“ƒOãŒÀ
+  # è‡ªå‹•ã‚¹ã‚±ãƒ¼ãƒªãƒ³ã‚°ä¸Šé™
   max_allocated_storage = 1000
 
   tags = {
@@ -71,7 +71,7 @@ resource "aws_db_option_group" "aws_handson_rds_option_group" {
 }
 
 # RDS DB Parameter Group
-# family ‚Æ‚Í? dbƒpƒ‰ƒ[ƒ^‚ÌƒOƒ‹[ƒv‚ğw’è‚µ‚Ä‚¢‚é‚Ì‚©H
+# family ã¨ã¯? dbãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®ã‚°ãƒ«ãƒ¼ãƒ—ã‚’æŒ‡å®šã—ã¦ã„ã‚‹ã®ã‹ï¼Ÿ
 # param ref https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/AuroraMySQL.Reference.html
 resource "aws_db_parameter_group" "aws_handson_rds_parameter_group" {
   name   = "aws-handson-rds-parameter-group"

@@ -1,4 +1,4 @@
-# ƒTƒ“ƒvƒ‹‚»‚Ì‚Ü‚Ü
+# ã‚µãƒ³ãƒ—ãƒ«ãã®ã¾ã¾
 terraform {
   required_providers {
     aws = {
