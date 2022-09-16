@@ -8,7 +8,7 @@
     - [Region（リージョン）](#regionリージョン)
     - [Availability Zone（AZ）](#availability-zoneaz)
     - [VPC（Virtual Private Cloud）](#vpcvirtual-private-cloud)
-    - [subnet（サブネット）](#subnetサブネット)
+    - [サブネット](#サブネット)
     - [インターネットゲートウェイ](#インターネットゲートウェイ)
     - [ルートテーブル](#ルートテーブル)
     - [ELB（Elastic Load balancing）](#elbelastic-load-balancing)
@@ -34,14 +34,14 @@
 - [雑感](#雑感)
 
 # はじめに
+
 インフラ知識(弱)、AWS歴1年弱(クラウドプラクティショナーをもとに勉強し始めて3ヶ月)、Terraformは当然初めてとなるAPエンジニアが、[スケーラブルウェブサイト構築ハンズオン](https://catalog.us-east-1.prod.workshops.aws/workshops/47782ec0-8e8c-41e8-b873-9da91e822b36/ja-JP)のシステムをTerraformを通して構築して得たTerraformの知識と、雑感を共有したいと思います。  
-<!-- TODO はじめの挨拶大事 見直し検討-->
 スケーラブルウェブサイト構築ハンズオンで最終的に作成されるシステム構成は、複数のAZ(アベイラビリティゾーンに)APサーバとRDSを配置し、Webレイヤーは負荷分散且つ冗長構成に、DBレイヤーは可用性を高める構成となっていますが、今回はSTEP1ということでその途中段階までをゴールとしています。
 ![ハンズオンのシステム構成完成図](https://static.us-east-1.prod.workshops.aws/public/d6be7f14-44e1-4950-a656-1fdd321bdf8e/static/index.png)
 
 # STEP1のゴール
 
-STEP1ではインターネットゲートウェイは配置しつつも、ウェブレイヤー、DBレイヤーともにシングルAZに配置した構成としています。
+STEP1ではロードバランサを配置しつつも、ウェブレイヤー、DBレイヤーともにシングルAZに配置した構成としています。
 
 ![STEP1のゴール](https://static.us-east-1.prod.workshops.aws/public/d6be7f14-44e1-4950-a656-1fdd321bdf8e/static/overview/images/phase5/00.png)
 
@@ -58,7 +58,8 @@ STEP1ではインターネットゲートウェイは配置しつつも、ウェ
 
 ### Availability Zone（AZ）
 
-- リージョン内のデータセンターのこと  
+- リージョン内の区分のこと  
+- AZ内に複数のデータセンターを持つ
 - 耐障害性を高めるため一つのリージョン内に複数のAZがある
 
 ### VPC（Virtual Private Cloud）
@@ -66,7 +67,7 @@ STEP1ではインターネットゲートウェイは配置しつつも、ウェ
 - AWS上の閉域（自分専用の）ネットワーク  
 - VPCを作成して、その中にサーバーなどを構築していく
 
-### subnet（サブネット）
+### サブネット
 
 - VPC内でさらに細かく区切った任意のネットワークの範囲。  
 - Webサーバーはパブリックサブネットに配置し、データベースはプライベートサブネットに構築するなど、用途による切り分けができる。（パブリックサブネットとプライベートサブネットの違いは、インターネットと直接通信するかどうか）
