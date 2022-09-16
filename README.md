@@ -27,7 +27,6 @@ ami="XXXXXXXXXXXXXXX"
 terraform init
 ~~~
 
-
 以下「-var-file=aws-handson.tfvars」は変数を外出ししているため指定が必要  
 
 plan取得
@@ -53,15 +52,15 @@ Do you want to perform these actions?
 
 terraform apply実行後、ロードバランサのdns名とRDSのエンドポイントが出力される。workdpressインストール時に利用する。
 ~~~
-elb_dnsname = "http://aws-handson-lb-86447748.ap-northeast-1.elb.amazonaws.com"
-rds_endpoint = "aws-handson-rds-wp-db.cx9vdocl4mln.ap-northeast-1.rds.amazonaws.com:3306"
+elb_dnsname = "http://aws-handson-lb-xxxxxxx.ap-northeast-1.elb.amazonaws.com"
+rds_endpoint = "aws-handson-rds-wp-db.xxxxxxxxxxxxxxx.ap-northeast-1.rds.amazonaws.com:3306"
 ~~~
 
 # WordPressにリクエスト
 
 ブラウザに下記URLを貼り付け。後は[ハンズオン 5. WordPress の初期設定](https://catalog.us-east-1.prod.workshops.aws/workshops/47782ec0-8e8c-41e8-b873-9da91e822b36/ja-JP/hands-on/phase5)の手順に沿って進める。必要な情報は、aws-handson.tfvarsや、apply後の出力内容で足りてるはず。
 ~~~
-http://aws-handson-lb-86447748.ap-northeast-1.elb.amazonaws.com
+http://aws-handson-lb-xxxxxxx.ap-northeast-1.elb.amazonaws.com
 ~~~
 
 # あとかたづけ
