@@ -3,3 +3,4 @@ variable "db_username" {}
 variable "db_password" {}
 variable "helthcheck_path" {}
 variable "ami" {}
+variable "region" {}
